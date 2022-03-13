@@ -23,4 +23,21 @@ app.use(express.json());
 app.use(cors());
 const server = http.createServer(app);
 app.use(router);
+
+app.use((error, req, res, next) => {
+  res.status(error.status || 500);
+
+  if (error.code === 11000) {
+    res.status(400).json({
+      success: false,
+      message: "Email already exists",
+    });
+  } else {
+    res.status(200).json({
+      success: false,
+      message: error.message,
+    });
+  }
+});
+
 server.listen(9000, () => console.log(`The server is listening on port 9000`));

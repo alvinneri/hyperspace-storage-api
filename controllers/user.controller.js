@@ -3,7 +3,7 @@ const User = require("../models/User");
 exports.getUser = async (req, res) => {
   try {
     res.status(201).json({
-      message: "You made it to the secure route",
+      success: true,
       user: req.user,
       token: req.query.secret_token,
     });
