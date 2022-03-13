@@ -18,6 +18,8 @@ mongoose.connection.on("error", function (err) {
 
 // Setup server
 const app = express();
+require("./middleware/auth");
+app.use(express.json());
 app.use(cors());
 const server = http.createServer(app);
 app.use(router);
