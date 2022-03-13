@@ -3,6 +3,5 @@ module.exports = Object.freeze({
   mongo: {
     uri: process.env.MONGO_URI,
   },
-  userRoles: ["user", "admin", "lessor"],
   jwtSecret: process.env.JWT_SECRET,
 });

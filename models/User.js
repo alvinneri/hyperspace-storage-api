@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = require("mongoose").Schema;
 const bcrypt = require("bcrypt");
+const { userRoles } = require("../lib/user.lib");
 
 const UserSchema = new Schema({
   email: {
@@ -11,7 +12,9 @@ const UserSchema = new Schema({
   },
   role: {
     type: String,
+    enum: userRoles,
     default: "user",
+    required: true,
   },
   password: {
     type: String,

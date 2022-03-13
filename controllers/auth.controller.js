@@ -1,6 +1,8 @@
 const passport = require("passport");
 const jwt = require("jsonwebtoken");
 const config = require("../config");
+const User = require("../models/User");
+const { userRoles } = require("../lib/user.lib");
 
 exports.loginIn = async (req, res, next) => {
   passport.authenticate("login", async (err, user, info) => {
@@ -28,9 +30,28 @@ exports.loginIn = async (req, res, next) => {
 };
 
 exports.signUp = async (req, res, next) => {
-  res.json({
-    message: "Signup successful",
-    success: true,
-    user: req.user,
-  });
+  if (req.user && userRoles.values.includes(req.body.role)) {
+    const user = await User.create({
+      email: req.user.email,
+      password: req.user.password,
+      role: req.body.role,
+    });
+    res.json({
+      message: "Signup successful",
+      success: true,
+      user: user,
+    });
+  } else {
+    if (!userRoles.values.includes(req.body.role)) {
+      res.status(400).json({
+        message: userRoles.message,
+        success: false,
+      });
+    } else {
+      res.status(400).json({
+        message: "Signup unsuccessful",
+        success: false,
+      });
+    }
+  }
 };
