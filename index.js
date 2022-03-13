@@ -7,6 +7,7 @@ const mongoose = require("mongoose");
 const http = require("http");
 const cors = require("cors");
 const config = require("./config");
+const router = require("./routes");
 
 // Connect to MongoDB
 mongoose.connect(config.mongo.uri).then(() => console.log("mongodb connected"));
@@ -19,4 +20,5 @@ mongoose.connection.on("error", function (err) {
 const app = express();
 app.use(cors());
 const server = http.createServer(app);
+app.use(router);
 server.listen(9000, () => console.log(`The server is listening on port 9000`));
